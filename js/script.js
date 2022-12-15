@@ -62,7 +62,10 @@ if (document.body.classList.contains('runAudioGid')) {
           <h1>Здравствуйте, вас приветствует музей покорения космоса</h1>
           <p>Для использования аудиогида, используйте <span style="font-size: 2rem">🛰️</span>️</p>
           <p>Для использования полноэкранного режима, используйте F11</p>
-          <button class="btn btn-close-modal">Счастливого путешествия</button>
+          <button class="btn btn-close-modal" style="display: inline-block;margin-bottom: 10px">Счастливого путешествия</button>
+          <div>
+            <a class="modal__link" href="https://disk.yandex.ru/d/fyoWGY4ZG-PUbA">Ссылка на видео</a>
+          </div>
       </div>
   </div>
   `)

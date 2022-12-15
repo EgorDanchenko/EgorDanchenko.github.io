@@ -897,6 +897,14 @@ div#dopBox {
     color: white;
 }
 
+.modal__link {
+    color: currentColor;
+}
+
+.modal__link:hover {
+    border-bottom: 1px solid;
+}
+
 .btn {
     padding: 8px;
     border: none;
