@@ -6,37 +6,52 @@ if (url && image) {
     image.src = url
 }
 
-const runningAudio = []
+// {url:'',audio:new Audio()}
+const audioList = []
 
-function stopAllAudio() {
-  runningAudio.forEach(audio => {
-    audio.pause()
-    audio.currentTime = 0
+function stopAllAudio(currentAudioItem = undefined) {
+  audioList.forEach(audioItem => {
+    if (currentAudioItem && currentAudioItem === audioItem) return
+    audioItem.audio.pause()
   })
 }
 
-const audioGid = document.querySelectorAll('[data-audio]')
+const onClick = document.querySelectorAll('[data-audio]')
+const onHover = document.querySelectorAll('[data-audio-on-hover]')
 
-audioGid.forEach(audioGidElem => {
-  audioGidElem.addEventListener('click', () => {
-    const url = audioGidElem.getAttribute('data-audio')
-    if (!url) return
-    stopAllAudio()
-    const audio = new Audio(`./audio/${url}`)
-    runningAudio.push(audio)
-    audio.play()
+function audioHandler(elem, key) {
+  const url = elem.getAttribute(key)
+  if (!url) return
+
+  const fullUrl = `./audio/${url}`
+  const foundInstance = audioList.find(audioItem => {
+    return audioItem.url === fullUrl
+  })
+
+  stopAllAudio(foundInstance)
+
+  if (foundInstance) {
+    if (foundInstance.audio.paused) {
+      foundInstance.audio.play()
+    } else {
+      foundInstance.audio.pause()
+    }
+  } else {
+    const instance = new Audio(fullUrl)
+    audioList.push({url: fullUrl, audio: instance})
+    instance.play()
+  }
+}
+
+onClick.forEach(elem => {
+  elem.addEventListener('click', () => {
+    audioHandler(elem, 'data-audio')
   })
 })
 
-const audioGidOnHover = document.querySelectorAll('[data-audio-on-hover]')
-audioGidOnHover.forEach(audioGidOnHoverElem => {
-  audioGidOnHoverElem.addEventListener('mouseenter', () => {
-    const url = audioGidOnHoverElem.getAttribute('data-audio-on-hover')
-    if (!url) return
-    stopAllAudio()
-    const audio = new Audio(`./audio/${url}`)
-    runningAudio.push(audio)
-    audio.play()
+onHover.forEach(elem => {
+  elem.addEventListener('mouseenter', () => {
+    audioHandler(elem, 'data-audio-on-hover')
   })
 })
 
